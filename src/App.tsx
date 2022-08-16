@@ -4,8 +4,6 @@ import Footer from './components/estaticos/footer/Footer';
 import Navbar from './components/estaticos/navbar/Navbar';
 import ListaPostagem from './components/postagens/listapostagem/ListaPostagem';
 import ListaTema from './components/temas/listatema/ListaTema';
-import Home from './paginas/home/Home';
-import Login from './paginas/login/Login';
 import './App.css';
 import CadastroPost from './components/postagens/cadastroPost/CadastroPost';
 import CadastroTema from './components/temas/cadastroTema/CadastroTema';
@@ -14,10 +12,16 @@ import DeletarTema from './components/temas/deletarTema/DeletarTema';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import CadastroUsuario from './paginas/cadastroUsuario/CadastroUsuario';
+import  {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Home from './paginas/home/Home';
+import Login from './paginas/login/Login';
+
 
 function App() {
     return (
         <Provider store={store}>
+                  <ToastContainer />
 
         <Router>
             <Navbar />
