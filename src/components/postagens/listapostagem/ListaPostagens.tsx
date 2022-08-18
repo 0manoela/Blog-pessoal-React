@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState}from 'react'
 import { Link } from 'react-router-dom'
 import { Box } from '@mui/system';
-import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
-import './ListaTema.css';
-import Tema from '../../../models/Tema'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import Postagens from '../../../models/Postagens';
 import { busca } from '../../../services/Service';
+import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
+import './ListaPostagem.css';
 import { useSelector } from 'react-redux';
 import { TokenState } from '../../../store/tokens/tokensReducer';
 import { toast } from 'react-toastify';
 
+function ListaPostagens() {
 
-
-function ListaTema() {
-
-  const [temas, setTemas] = useState<Tema[]>([])
+  const [posts, setPosts] = useState<Postagens[]>([])
   let navigate = useNavigate();
   const token = useSelector<TokenState, TokenState["tokens"]>(
     (state) => state.tokens
   );
 
   useEffect(() => {
-    if (token == '') {
+    if (token == "") {
       toast.error('Você precisa estar logado', {
         position: "top-right",
         autoClose: 2000,
@@ -31,52 +29,57 @@ function ListaTema() {
         draggable: false,
         theme: "colored",
         progress: undefined,
-        });
+    });
       navigate("/login")
+
     }
   }, [token])
 
-
-  async function getTema() {
-    await busca("/tema", setTemas, {
+  async function getPost() {
+    await busca("/postagens", setPosts, {
       headers: {
         'Authorization': token
       }
     })
   }
 
-
   useEffect(() => {
-    getTema()
-  }, [temas.length])
 
+    getPost()
+
+  }, [posts.length])
 
   return (
     <>
-
       {
-        temas.map(tema => (
+        posts.map(post => (
           <Box m={2} >
             <Card variant="outlined">
               <CardContent>
                 <Typography color="textSecondary" gutterBottom>
-                  Tema
+                  Postagens
                 </Typography>
                 <Typography variant="h5" component="h2">
-                  {tema.descricao}
+                  {post.titulo}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  {post.texto}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  {post.tema?.descricao}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Box display="flex" justifyContent="center" mb={1.5} >
+                <Box display="flex" justifyContent="center" mb={1.5}>
 
-                  <Link to={`/formularioTema/${tema.id}`} className="text-decorator-none">
+                  <Link to={`/formularioPostagem/${post.id}`} className="text-decorator-none" >
                     <Box mx={1}>
                       <Button variant="contained" className="marginLeft" size='small' color="primary" >
                         atualizar
                       </Button>
                     </Box>
                   </Link>
-                  <Link to={`/deletarTema/${tema.id}`} className="text-decorator-none">
+                  <Link to={`/deletarPostagem/${post.id}`} className="text-decorator-none">
                     <Box mx={1}>
                       <Button variant="contained" size='small' color="secondary">
                         deletar
@@ -90,8 +93,9 @@ function ListaTema() {
         ))
       }
     </>
-  );
+  )
+
+ 
 }
 
-
-export default ListaTema;
+export default ListaPostagens;

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, ChangeEvent} from 'react'
 import { Container, Typography, TextField, Button } from "@material-ui/core"
-import Tema from '../../../models/Tema';
+import Temas from '../../../models/Temas';
 import { buscaId, post, put } from '../../../services/Service';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -8,14 +8,14 @@ import { TokenState } from '../../../store/tokens/tokensReducer';
 import { toast } from 'react-toastify';
 
 
-function CadastroTema() {
+function CadastroTemas() {
 
     let navigate = useNavigate();
     const { id } = useParams<{id: string}>();
     const token = useSelector<TokenState, TokenState["tokens"]>(
         (state) => state.tokens
       );
-    const [tema, setTema] = useState<Tema>({
+    const [tema, setTema] = useState<Temas>({
         id: 0,
         descricao: ''
     })
@@ -118,4 +118,4 @@ function CadastroTema() {
         )
     }
    
-export default CadastroTema;
+export default CadastroTemas;
